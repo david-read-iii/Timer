@@ -151,6 +151,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Invoked when this activity is no longer visible on screen. It starts a new
+     * {@link TimerJobIntentService} for {@link #mTimerModel} if it is still running.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mTimerModel.isRunning()) {
+            TimerJobIntentService.startJob(this, mTimerModel.getRemainingMilliseconds());
+        }
+    }
+
+    /**
      * Invoked when {@link #mStartButton} is clicked. It gets the initial time interval from
      * {@link #mHoursPicker}, {@link #mMinutesPicker}, and {@link #mSecondsPicker}. Then, it puts
      * the activity in the second mode, starts {@link #mTimerModel}, and has {@link #mHandler}
